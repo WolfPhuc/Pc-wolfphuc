@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>WOLFPHUC PC FULL</title>
+
+<style>
+body{
+margin:0;
+font-family:Courier New;
+background:#000;
+color:#0f0;
+overflow:hidden;
+cursor:none;
+}
+
+/* CURSOR */
+#cursor{
+width:10px;
+height:10px;
+background:#0f0;
+border-radius:50%;
+position:fixed;
+pointer-events:none;
+z-index:9999;
+transform:translate(-50%,-50%);
+box-shadow:0 0 10px #0f0;
+}
+
+/* TOP BAR */
+#bar{
+height:30px;
+background:#000;
+border-bottom:1px solid #0f0;
+display:flex;
+align-items:center;
+padding-left:10px;
+}
+
+/* DESKTOP */
+#desktop{
+position:absolute;
+top:30px;
+width:100%;
+height:calc(100% - 30px);
+}
+
+/* ICON */
+.icon{
+display:inline-block;
+border:1px solid #0f0;
+padding:10px;
+margin:6px;
+cursor:pointer;
+}
+
+/* WINDOW */
+.window{
+position:absolute;
+top:60px;
+left:80px;
+width:420px;
+height:320px;
+border:1px solid #0f0;
+background:#000;
+display:none;
+overflow:auto;
+}
+
+.title{
+display:flex;
+justify-content:space-between;
+border-bottom:1px solid #0f0;
+padding:5px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="cursor"></div>
+
+<div id="bar">💻 WOLFPHUC FULL PC SYSTEM</div>
+
+<div id="desktop">
+
+<!-- ICONS -->
+<div class="icon" onclick="openApp('yt')">📺 YouTube</div>
+<div class="icon" onclick="openApp('chrome')">🌐 Chrome</div>
+<div class="icon" onclick="openApp('note')">📄 Notepad</div>
+<div class="icon" onclick="openApp('game')">🎮 Guess Game</div>
+
+<!-- YOUTUBE -->
+<div id="yt" class="window">
+<div class="title">YouTube <button onclick="closeApp('yt')">X</button></div>
+<a href="https://youtube.com" target="_blank">Open YouTube</a>
+</div>
+
+<!-- CHROME -->
+<div id="chrome" class="window">
+<div class="title">Chrome <button onclick="closeApp('chrome')">X</button></div>
+<a href="https://google.com" target="_blank">Open Google</a>
+</div>
+
+<!-- NOTEPAD -->
+<div id="note" class="window">
+<div class="title">Notepad <button onclick="closeApp('note')">X</button></div>
+<textarea style="width:100%;height:240px;background:#000;color:#0f0;"></textarea>
+</div>
+
+<!-- GAME -->
+<div id="game" class="window">
+<div class="title">Guess Number <button onclick="closeApp('game')">X</button></div>
+
+<h3>🔢 Đoán số (1 - 1000)</h3>
+
+<input id="num" type="number" placeholder="Nhập số" style="width:90%;padding:10px;margin:5px;">
+
+<button onclick="check()">Đoán</button>
+<button onclick="resetGame()">Chơi lại</button>
+
+<p id="info">Bắt đầu 😎</p>
+
+</div>
+
+</div>
+
+<script>
+
+/* ================= CURSOR ================= */
+let cursor=document.getElementById("cursor");
+
+document.addEventListener("mousemove",e=>{
+cursor.style.left=e.clientX+"px";
+cursor.style.top=e.clientY+"px";
+});
+
+/* ================= WINDOWS ================= */
+function openApp(id){
+document.getElementById(id).style.display="block";
+}
+
+function closeApp(id){
+document.getElementById(id).style.display="none";
+}
+
+/* ================= GAME ================= */
+let secret = rand();
+let info = document.getElementById("info");
+let input = document.getElementById("num");
+
+function rand(){
+return Math.floor(Math.random()*1000)+1;
+}
+
+function check(){
+
+let guess = Number(input.value);
+
+if(!guess){
+info.innerText="❌ Nhập số!";
+return;
+}
+
+if(guess === secret){
+info.innerText="🏆 ĐÚNG RỒI!";
+}
+else if(guess < secret){
+info.innerText="📈 LỚN HƠN!";
+}
+else{
+info.innerText="📉 BÉ HƠN!";
+}
+
+input.value="";
+input.focus();
+}
+
+function resetGame(){
+secret = rand();
+input.value="";
+info.innerText="🎮 Số mới!";
+}
+
+input.addEventListener("keydown",e=>{
+if(e.key==="Enter") check();
+});
+
+</script>
+
+</body>
+</html>
